@@ -5,7 +5,7 @@
 #define g 9.8
 // gravitational acceleration (should be positive.)
 
-#define ts 0.025
+#define ts 0.5
 // TimeStep
 
 #define historyLength 0
@@ -198,13 +198,10 @@ void setup()
     // input detection
     leftButtonPressed = !BPINC(1);
     rightButtonPressed = !BPINC(5);
-    Langle = analogRead(A0) >> 4 /* 60*/;
-    Rangle = analogRead(A4) >> 4 /* 60*/;
-
-    // if (ballside == 0)
-    //   Langle = analogRead(A0) >> 4;
-    // else
-    //   Rangle = analogRead(A4) >> 4;
+    // Langle = analogRead(A0) >> 4;
+    // Rangle = analogRead(A4) >> 4;
+    Langle = 32;
+    Rangle = 32;
 
     // Sync ballside variable with xOld
     if (ballside != (xOld >= 127))
@@ -280,7 +277,7 @@ void setup()
     else
     {
       // Move the ball
-      Xnew = xOld + VxOld /*15*/;
+      Xnew = xOld + VxOld * ts /*15*/;
       Ynew = yOld + VyOld - 0.5 * g * ts * ts /**/;
 
       // Update velocity by acceleration
@@ -360,7 +357,7 @@ void setup()
             // VxNew = 1.5 * g * costable[Langle];
             // VyNew = g + 1.5 * g * sintable[Langle];
             VxNew = 40 * costable[Langle];
-            VyNew = 4 * sintable[Langle];
+            VyNew = 40 * sintable[Langle];
             Lused = 1;
             NewBall = 0;
           }
@@ -375,7 +372,7 @@ void setup()
             // VxNew = -1.5 * g * costable[Rangle];
             // VyNew = g + -1.5 * g * sintable[Rangle];
             VxNew = -40 * costable[Rangle];
-            VyNew = 4 * sintable[Rangle];
+            VyNew = 40 * sintable[Rangle];
             Rused = 1;
             NewBall = 0;
           }
