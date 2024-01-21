@@ -1,41 +1,40 @@
 #define SCREEN_WIDTH 256
 #define SCREEN_HEIGHT 256
 
-void setup(){
-  DDRB = 255;
-  DDRD = 255;
+void setup()
+{
+  DDRB = 255; // Set all pins on PORTB to output
+  DDRD = 255; // Set all pins on PORTD to output
   pinMode(A0, OUTPUT);
   pinMode(A1, OUTPUT);
   // Serial.begin(115200);
 }
 
-void writey(uint8_t coord) {
+void writey(uint8_t coord)
+{
   PORTD = coord;
-  }
+}
 
-void writex(uint8_t num) {
-  if (num>255) {
-    num = 255;
-  }
-
+void writex(uint8_t coord)
+{
   // Step 1: Convert to binary
-  String binary = String(num, BIN);
+  String binary = String(coord, BIN);
 
   // Step 2: Pad with zeros if necessary
   int bitAsInt[8]; // Declare the variable bitAsInt
 
-  while (binary.length() < 8) {
+  while (binary.length() < 8)
+  {
     binary = "0" + binary;
   }
 
   // Step 3: Split into 8 numbers
-  for(int i = 0; i < 8; ++i) {
+  for (int i = 0; i < 8; ++i)
+  {
     char bit = binary.charAt(i);
     // Convert char to int and do something with it
-    bitAsInt[i] = bit - '0'; // Assign the value to bitAsInt array
+    bitAsInt[i] = bit - '0';                     // Assign the value to bitAsInt array
     bitAsInt[i] = bitAsInt[i] == 1 ? HIGH : LOW; // Convert 1 to HIGH and 0 to LOW
-    // For example, print it
-    // Serial.print(bitAsInt[i]);
   }
   Serial.println();
   digitalWrite(8, bitAsInt[0]);
@@ -56,12 +55,14 @@ int b = 0;
 
 unsigned char r = 128;
 
-void loop() {
+void loop()
+{
   // writey(sinTab[i++]);
   // writex(cosTab[i++]);
 
   // 畫出拋物線
-  for (int x = 0; x < SCREEN_WIDTH; x++) {
+  for (int x = 0; x < SCREEN_WIDTH; x++)
+  {
     // 使用拋物線公式計算 y 值
     int y = 0.01 * pow(x - SCREEN_WIDTH / 2, 2) + 10;
     // 確保 y 值在顯示器的範圍內
@@ -90,5 +91,4 @@ void loop() {
   // writey(255);
   // writex(255);
   // writey(255);
-  
-  }
+}

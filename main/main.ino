@@ -55,7 +55,7 @@ void drawGroundAndNet()
   }
 }
 
-bool BPINC(uint8_t port)
+bool getPlayerInput(uint8_t port)
 {
   String binary = String(PINC, BIN);
   while (binary.length() < 8)
@@ -69,24 +69,18 @@ bool BPINC(uint8_t port)
 
 void writey(uint8_t coord)
 {
-  // Serial.print("y");
-  // Serial.println(coord);
   PORTD = coord;
 }
 
-void writex(uint8_t num)
+void writex(uint8_t coord)
 {
-  // Serial.print("x");
-  // Serial.println(num);
-
-  // /*
-  if (num > 255)
+  if (coord > 255)
   {
-    num = 255;
+    coord = 255;
   }
 
   // Step 1: Convert to binary
-  String binary = String(num, BIN);
+  String binary = String(coord, BIN);
 
   // Step 2: Pad with zeros if necessary
   int bitAsInt[8]; // Declare the variable bitAsInt
@@ -103,8 +97,6 @@ void writex(uint8_t num)
     // Convert char to int and do something with it
     bitAsInt[i] = bit - '0';                     // Assign the value to bitAsInt array
     bitAsInt[i] = bitAsInt[i] == 1 ? HIGH : LOW; // Convert 1 to HIGH and 0 to LOW
-    // For example, print it
-    // Serial.print(bitAsInt[i]);
   }
   // Serial.println();
   digitalWrite(8, bitAsInt[0]);
@@ -115,7 +107,6 @@ void writex(uint8_t num)
   digitalWrite(13, bitAsInt[5]);
   digitalWrite(A2, bitAsInt[6]);
   digitalWrite(A3, bitAsInt[7]);
-  // */
 }
 
 void setup()
@@ -196,12 +187,10 @@ void setup()
   {
 
     // input detection
-    leftButtonPressed = !BPINC(1);
-    rightButtonPressed = !BPINC(5);
-    // Langle = analogRead(A0) >> 4;
-    // Rangle = analogRead(A4) >> 4;
-    Langle = 32;
-    Rangle = 32;
+    leftButtonPressed = !getPlayerInput(1);
+    rightButtonPressed = !getPlayerInput(5);
+    Langle = analogRead(A0) >> 4; // rescalled from 0-1023 to 0-63
+    Rangle = analogRead(A4) >> 4;
 
     // Sync ballside variable with xOld
     if (ballside != (xOld >= 127))
@@ -253,7 +242,7 @@ void setup()
 
     if (NewBallDelay)
     {
-      if ((BPINC(1) == 0) || (BPINC(5) == 0)) // 2U = 00000010 (2nd C port pin), 32U = 00100000 (5th C port pin)
+      if ((getPlayerInput(1) == 0) || (getPlayerInput(5) == 0)) // 2U = 00000010 (2nd C port pin), 32U = 00100000 (5th C port pin)
         NewBallDelay = 10000;
 
       NewBallDelay++;

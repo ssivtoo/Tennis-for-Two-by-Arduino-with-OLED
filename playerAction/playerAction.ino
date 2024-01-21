@@ -66,7 +66,7 @@ void writex(uint8_t num)
   digitalWrite(A3, bitAsInt[7]);
 }
 
-bool BPINC(uint8_t port)
+bool getPlayerInput(uint8_t port)
 {
   String binary = String(PINC, BIN);
   while (binary.length() < 8)
@@ -108,8 +108,8 @@ void loop()
   Serial.print(" ");
   Serial.print(analogRead(A4)>>4);
   Serial.print(" ");
-  Serial.print(BPINC(1));
+  Serial.print(getPlayerInput(1));
   Serial.print(" ");
-  Serial.println(BPINC(5));
+  Serial.println(getPlayerInput(5));
 
 }
