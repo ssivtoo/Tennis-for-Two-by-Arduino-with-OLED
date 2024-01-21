@@ -42,6 +42,8 @@ I also attached a python script to calculate the output voltage of an R-2R DAC. 
 
 ## The Circuit
 
+The pins assigned to the first DAC (Y axis) are 0, 1, 2, 3, 4, 5, 6, 7, which I can easily manipulate with PORTD function. As for the second DAC (X axis), unfortunately, the last two pins of PORTB (PB6 and PB7) are used for the crystal oscillator, so I have to use A2 and A3 instead.
+
 ![visual circuit diagram 1](circuitdiagram1.png)
 visual circuit diagram 1
 
@@ -51,7 +53,6 @@ visual circuit diagram 2
 ![actual circuit](actualcircuit.jpeg)
 actual circuit
 
-The pins assigned to the first DAC (Y axis) are 0, 1, 2, 3, 4, 5, 6, 7, which I can easily manipulate with PORTD function. As for the second DAC (X axis), unfortunately, the last two pins of PORTB (PB6 and PB7) are used for the crystal oscillator, so I have to use A0 and A1 instead.
 
 ## Programming
 
@@ -78,50 +79,5 @@ flowchart TB
 
 ### The Code
 
-At the beginning of the code, I define writex and writey functions to write the digital outputs to the DACs. writey is easy because I can just use PORTD function to write the digital outputs to the DAC. However, writex is a little bit tricky. I have to convert the digital outputs to binary and then write them to the DAC. The code is shown below.
-
-```c
-
-void writey(uint8_t coord)
-{
-  PORTD = coord;
-}
-
-void writex(uint8_t coord)
-{
-  if (coord > 255)
-  {
-    coord = 255;
-  }
-
-  // Step 1: Convert to binary
-  String binary = String(coord, BIN);
-
-  // Step 2: Pad with zeros if necessary
-  int bitAsInt[8]; // Declare the variable bitAsInt
-
-  while (binary.length() < 8)
-  {
-    binary = "0" + binary;
-  }
-
-  // Step 3: Split into 8 numbers
-  for (int i = 0; i < 8; ++i)
-  {
-    char bit = binary.charAt(i);
-    // Convert char to int and do something with it
-    bitAsInt[i] = bit - '0';                     // Assign the value to bitAsInt array
-    bitAsInt[i] = bitAsInt[i] == 1 ? HIGH : LOW; // Convert 1 to HIGH and 0 to LOW
-  }
-  // Serial.println();
-  digitalWrite(8, bitAsInt[0]);
-  digitalWrite(9, bitAsInt[1]);
-  digitalWrite(10, bitAsInt[2]);
-  digitalWrite(11, bitAsInt[3]);
-  digitalWrite(12, bitAsInt[4]);
-  digitalWrite(13, bitAsInt[5]);
-  digitalWrite(A2, bitAsInt[6]);
-  digitalWrite(A3, bitAsInt[7]);
-}
-```
+refer to the file "tennis.ino"
 

@@ -250,14 +250,6 @@ void setup()
       if (NewBallDelay > 5000)
         NewBallDelay = 0;
 
-      // m = 0;
-      // while (m < 255)
-      // {
-      //   writey(yp);
-      //   writex(xp);
-      //   m++;
-      // }
-
       VxNew = VxOld;
       VyNew = VyOld;
       Xnew = xOld;
