@@ -2,11 +2,9 @@
 #include <math.h>
 #include <stdlib.h> //gives rand() function
 
-#define g 9.8
-// gravitational acceleration (should be positive.)
+#define g 9.8 // gravitational acceleration (should be positive.)
 
-#define ts 0.5
-// TimeStep
+#define ts 0.5 // TimeStep
 
 #define historyLength 0
 
@@ -21,6 +19,7 @@ void drawGroundAndNet()
     k++;
     m = 0;
 
+    // Draw the left side of the ground (x=0 ~ x=127)
     while (m < 127)
     {
       writey(0);
@@ -28,6 +27,7 @@ void drawGroundAndNet()
       m++;
     }
 
+    // Draw the Net (x=127, y=0 ~ y=60)
     writex(127);
     m = 0;
     while (m < 61)
@@ -35,7 +35,6 @@ void drawGroundAndNet()
       writey(m);
       m += 2;
     }
-
     while (m > 1)
     {
       writey(m);
@@ -44,8 +43,9 @@ void drawGroundAndNet()
 
     writey(0);
     writex(127);
+    
+    // Draw the right side of the ground (x=127 ~ x=255)
     m = 127;
-
     while (m < 255)
     {
       writey(0);
@@ -56,9 +56,9 @@ void drawGroundAndNet()
 }
 
 bool getPlayerInput(uint8_t port)
-{
-  String binary = String(PINC, BIN);
-  while (binary.length() < 8)
+{ // Read the player input from A0~A5
+  String binary = String(PINC, BIN); // analogRead(A0-A5)
+  while (binary.length() < 8) // Pad with zeros if necessary
   {
     binary = "0" + binary;
   }
@@ -68,23 +68,18 @@ bool getPlayerInput(uint8_t port)
 }
 
 void writey(uint8_t coord)
-{
+{// Set the output to DAC
   PORTD = coord;
 }
 
 void writex(uint8_t coord)
-{
-  if (coord > 255)
-  {
-    coord = 255;
-  }
+{// Set the output to DAC
 
   // Step 1: Convert to binary
   String binary = String(coord, BIN);
 
   // Step 2: Pad with zeros if necessary
-  int bitAsInt[8]; // Declare the variable bitAsInt
-
+  int bitAsInt[8];
   while (binary.length() < 8)
   {
     binary = "0" + binary;
@@ -98,7 +93,8 @@ void writex(uint8_t coord)
     bitAsInt[i] = bit - '0';                     // Assign the value to bitAsInt array
     bitAsInt[i] = bitAsInt[i] == 1 ? HIGH : LOW; // Convert 1 to HIGH and 0 to LOW
   }
-  // Serial.println();
+
+  // Step 4: Write to corresponding ports
   digitalWrite(8, bitAsInt[0]);
   digitalWrite(9, bitAsInt[1]);
   digitalWrite(10, bitAsInt[2]);
@@ -111,7 +107,7 @@ void writex(uint8_t coord)
 
 void setup()
 {
-  Serial.begin(250000); // this is necessary for some reason I'm not entirely clear on because we're using D0 and D1 which are RX and TX on Arduino Nano
+  Serial.begin(250000);
   float sintable[64];
   float costable[64];
 

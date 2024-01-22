@@ -37,7 +37,14 @@ I choose an 8-bit DAC because it's the maximum number of pins available on the A
 
 ## The Circuit
 
-The pins assigned to the first DAC (Y axis) are 0, 1, 2, 3, 4, 5, 6, 7, which I can easily manipulate with the PORTD function. As for the second DAC (X axis), unfortunately, the last two pins of PORTB (PB6 and PB7) are used for the crystal oscillator, so I have to use A2 and A3 instead.
+The pins assigned to the first DAC (Y axis) are 0, 1, 2, 3, 4, 5, 6, 7, which I can easily manipulate with the PORTD function. As for the second DAC (X axis), unfortunately, the last two pins of PORTB (PB6 and PB7) are occupied for the crystal oscillator, so I have to use A2 and A3 instead.
+
+For the controller, we need a button and a potentionmeter. The output of potentionmeter is marked as brown, and the buttom output is marked as blue. The two controller occupied all the rest port of Arduino. The 10k resistor between GND and buttom is functioning as a pull-up resister.
+
+According to the formula above, if input is 11111111 (255 in decimal), the output will be around $4.9804V$, which is a $0.4\%$ lost in voltage.
+
+The input of DAC can be describe as binary numbers from 0b00000000 to 0b11111111, where every digit represent the on and off of each pin (HIGH or LOW in Arduino). We can also express them in decimal, which is 0-255.     
+After we hook up the circuit with oscilloscope, we are able to control the output voltage from $0$~$5V$, with 256 steps. For the X-Y mode, it turned into a plane with coordination from 0-255 at each axis. By far, we can easily control the pixel that displayed on the oscilloscope.
 
 ![Visual Circuit Diagram 1](circuitdiagram1.png)
 Visual Circuit Diagram 1
