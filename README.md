@@ -39,12 +39,12 @@ I choose an 8-bit DAC because it's the maximum number of pins available on the A
 
 The pins assigned to the first DAC (Y axis) are 0, 1, 2, 3, 4, 5, 6, 7, which I can easily manipulate with the PORTD function. As for the second DAC (X axis), unfortunately, the last two pins of PORTB (PB6 and PB7) are occupied for the crystal oscillator, so I have to use A2 and A3 instead.
 
-For the controller, we need a button and a potentionmeter. The output of potentionmeter is marked as brown, and the buttom output is marked as blue. The two controller occupied all the rest port of Arduino. The 10k resistor between GND and buttom is functioning as a pull-up resister.
+For the controller, we need a potentiometer and a button. The output of the potentiometer is marked as brown, and the button output is marked as blue. The two controllers occupy all the remaining ports of the Arduino. The 10k resistor between GND and the button functions as a pull-up resistor.
 
-According to the formula above, if input is 11111111 (255 in decimal), the output will be around $4.9804V$, which is a $0.4\%$ lost in voltage.
+According to the formula above, if the input is 11111111 (255 in decimal), the output will be around $4.9804V$, which is a $0.4\%$ loss in voltage.
 
-The input of DAC can be describe as binary numbers from 0b00000000 to 0b11111111, where every digit represent the on and off of each pin (HIGH or LOW in Arduino). We can also express them in decimal, which is 0-255.     
-After we hook up the circuit with oscilloscope, we are able to control the output voltage from $0$~$5V$, with 256 steps. For the X-Y mode, it turned into a plane with coordination from 0-255 at each axis. By far, we can easily control the pixel that displayed on the oscilloscope.
+The input of the DAC can be described as binary numbers from 0b00000000 to 0b11111111, where each digit represents the on and off state of each pin (HIGH or LOW in Arduino). We can also express them in decimal, which is 0-255.     
+After we hook up the circuit with the oscilloscope, we are able to control the output voltage from $0$~$5V$, with 256 steps. For the X-Y mode, it turns into a plane with coordinates from 0-255 on each axis. By far, we can easily control the pixel that is displayed on the oscilloscope.
 
 ![Visual Circuit Diagram 1](circuitdiagram1.png)
 Visual Circuit Diagram 1
