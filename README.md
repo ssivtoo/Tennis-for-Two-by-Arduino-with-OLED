@@ -1,5 +1,7 @@
 # Tennis-for-Two-by-Arduino
 This is a recreation of the first video game, "Tennis for Two," using Arduino as the signal source.
+This *Tennis for Two* recreation was developed for my school project. It is adapted from [code and tutorial by Windell Oskay of Evil Mad Scientist Laboratories](https://www.evilmadscientist.com/2008/resurrecting-tennis-for-two-a-video-game-from-1958/)
+
 
 ## Tennis for Two
 
@@ -46,13 +48,16 @@ According to the formula above, if the input is 11111111 (255 in decimal), the o
 The input of the DAC can be described as binary numbers from 0b00000000 to 0b11111111, where each digit represents the on and off state of each pin (HIGH or LOW in Arduino). We can also express them in decimal, which is 0-255.     
 After we hook up the circuit with the oscilloscope, we are able to control the output voltage from $0$~$5V$, with 256 steps. For the X-Y mode, it turns into a plane with coordinates from 0-255 on each axis. By far, we can easily control the pixel that is displayed on the oscilloscope.
 
-![Visual Circuit Diagram 1](circuitdiagram1.png)
+![parabola](images/parabola.JPEG)
+You can use the file [parabola.ino](parabola/parabola.ino) to test if your circuit is working fine.
+
+![Visual Circuit Diagram 1](images/circuitdiagram1.png)
 Visual Circuit Diagram 1
 
-![Visual Circuit Diagram 2](circuitdiagram2.png)
+![Visual Circuit Diagram 2](images/circuitdiagram2.png)
 Visual Circuit Diagram 2
 
-![Actual Circuit](actualcircuit.jpeg)
+![Actual Circuit](images/actualcircuit.jpeg)
 Actual Circuit
 
 ## Programming
@@ -70,7 +75,7 @@ flowchart TB
     G --> H{Collision Detected?}
     H -- Yes --> I[Bounce]
     H -- No --> J[Continue Moving]
-    I --> K[Continue Moving]
+    I --> J
     J --> L{Button Press Detected?}
     L -- Yes --> M[Change Speed]
     L -- No --> N[Continue Moving]
@@ -80,4 +85,4 @@ flowchart TB
 
 ### The Code
 
-refer to the file "tennis.ino"
+refer to the file [tennis.ino](tennis/tennis.ino)
